@@ -16,6 +16,7 @@ package com.darkoverlordofdata.datahammerpro;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -30,7 +31,11 @@ import android.os.Build;
 import android.widget.TextView;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements ExploreFragment.OnFragmentInteractionListener {
+
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, ExploreFragment.newInstance("", ""))
                     .commit();
         }
     }
@@ -90,17 +95,6 @@ public class MainActivity extends ActionBarActivity {
             return rootView;
         }
     }
-
-//    public static class PrefsFragment extends PreferenceFragment {
-//
-//        @Override
-//        public void onCreate(Bundle savedInstanceState) {
-//            super.onCreate(savedInstanceState);
-//
-//            // Load the preferences from an XML resource
-//            addPreferencesFromResource(R.xml.preferences);
-//        }
-//    }
 
     protected void showAbout() {
 
