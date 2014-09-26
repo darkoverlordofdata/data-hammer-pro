@@ -1,5 +1,22 @@
+/**
+ +--------------------------------------------------------------------+
+ | MainActivity.java
+ +--------------------------------------------------------------------+
+ | Copyright DarkOverlordOfData (c) 2014
+ +--------------------------------------------------------------------+
+ |
+ | This file is a part of Data Hammer Pro
+ |
+ | Data Hammer Pro is free software; you can copy, modify, and distribute
+ | it under the terms of the MIT License
+ |
+ +--------------------------------------------------------------------+
+ */
 package com.darkoverlordofdata.datahammerpro;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,7 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
-
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -39,11 +56,23 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch(item.getItemId()) {
+
+            case R.id.action_settings:
+                startActivity(new Intent(this, Preferences.class));
+                return true;
+
+            case R.id.action_about:
+                showAbout();
+                return true;
+
+            case R.id.action_exit:
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -61,4 +90,36 @@ public class MainActivity extends ActionBarActivity {
             return rootView;
         }
     }
+
+//    public static class PrefsFragment extends PreferenceFragment {
+//
+//        @Override
+//        public void onCreate(Bundle savedInstanceState) {
+//            super.onCreate(savedInstanceState);
+//
+//            // Load the preferences from an XML resource
+//            addPreferencesFromResource(R.xml.preferences);
+//        }
+//    }
+
+    protected void showAbout() {
+
+
+        // Inflate the about message contents
+        View messageView = getLayoutInflater().inflate(R.layout.about, null, false);
+
+        // When linking text, force to always use default color. This works
+        // around a pressed color state bug.
+        TextView textView = (TextView) messageView.findViewById(R.id.about_credits);
+        int defaultColor = textView.getTextColors().getDefaultColor();
+        textView.setTextColor(defaultColor);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.ic_launcher);
+        builder.setTitle(R.string.app_name);
+        builder.setView(messageView);
+        builder.create();
+        builder.show();
+    }
+
 }
